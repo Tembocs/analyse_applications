@@ -1,4 +1,4 @@
-# analyse.py
+#! analyse.py
 """Analyse applications from CSV file"""
 
 from pathlib import Path
@@ -10,7 +10,7 @@ import sys
 # Function 1: read CSV??
 # Function 2: Assign new column names into the data frame and return the dataframe
 # Function 3: remove duplicates
-def read_data_file(csv_datafile):
+def read_data_file(csv_datafile: str):
     """Read the CSV data file, assign new column names to the dataframe and
     remove duplicates.
 
@@ -63,7 +63,7 @@ def read_data_file(csv_datafile):
     return dataframe
 
 
-def split_courses(dataframe):
+def split_courses(dataframe: pd.DataFrame):
     """Split the dataframe into the three separate courses.
 
     Return a tuple with three dataframes."""
@@ -75,13 +75,13 @@ def split_courses(dataframe):
     return (ca_co_upgrading, resident_co, his)
 
 
-def get_duplicates(dataframe):
+def get_duplicates(dataframe: pd.DataFrame):
     """Check for duplicates and return a dataframe with duplicates."""
 
     return dataframe[dataframe.duplicated(subset=["oLevelNumber"])]
 
 
-def calculate_age(born):
+def calculate_age(born: str):
     """Calculate the age based on the given birth date.
 
     Return age in years.
@@ -91,7 +91,8 @@ def calculate_age(born):
     today = date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
-def credit_c(score):
+
+def credit_c(score: str):
     """Check that the credit is C or above and return True, else return False."""
 
     possible_values = ['A', 'B', 'C']
@@ -101,7 +102,8 @@ def credit_c(score):
     
     return "No"
 
-def credit_d(score):
+
+def credit_d(score: str):
     """Check that the credit is D or above and return 'Yes', else return 'No'."""
 
     possible_values = ['A', 'B', 'C', 'D']
@@ -112,7 +114,7 @@ def credit_d(score):
     return "No"
 
 
-def check_qualification(dataframe):
+def check_qualification(dataframe: pd.DataFrame):
     """Check that a candidate qualify for a selected course.
     
     Return a dataframe with a column Qualify filled, with 'Yes' or 'No' accordingly."""
@@ -135,7 +137,7 @@ def check_qualification(dataframe):
     return dataframe
 
 
-def write_to_file(filename, sheet, dataframe):
+def write_to_file(filename: str, sheet: str, dataframe: pd.DataFrame):
     """Writes the contents of a data frame into an excel file."""
 
     writer = pd.ExcelWriter(filename)
@@ -189,8 +191,7 @@ def run(filename: str):
         print(f"\n--> File '{filename}' does not exists!\n")
 
 
-# Make it possible for the script to run on itself in case no modification and testing is
-# needed.
+# Run everything
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         print('\n--> You need to provide a full path to the csv file.\n')

@@ -185,7 +185,7 @@ def run(filename: str):
         # For a quick picture of what is going on.
         print(summary_df)
 
-        print(f"--> Data frames written to file {candidates_file}.")
+        print(f"\n--> Data frames written to file '{candidates_file}'")
 
     else:
         print(f"\n--> File '{filename}' does not exists!\n")
@@ -193,8 +193,13 @@ def run(filename: str):
 
 # Run everything
 if __name__ == "__main__":
+    decorator = "*" * 60
+    print(f'\n{decorator}')
+
     if len(sys.argv) == 1:
         print('\n--> You need to provide a full path to the csv file.\n')
 
     else:
         run(sys.argv[1])
+
+    print(f'{decorator}\n')

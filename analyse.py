@@ -10,7 +10,7 @@ import sys
 # Function 1: read CSV??
 # Function 2: Assign new column names into the data frame and return the dataframe
 # Function 3: remove duplicates
-def read_data_file(csv_datafile: str):
+def read_data_file(csv_datafile: str) -> pd.DataFrame:
     """Read the CSV data file, assign new column names to the dataframe and
     remove duplicates.
 
@@ -47,7 +47,7 @@ def read_data_file(csv_datafile: str):
     # Making sure that name comparison will work by removing leading, extra and trailing spaces
     dataframe["name"] = dataframe["name"].apply(lambda x: ' '.join(x.split()))
 
-    # This goes after after columns renaming as it depend on new renaming, 'oLevelNumber'
+    # This goes after columns renaming as it depend on new renaming, 'oLevelNumber'
     # oLevelNumber seem to be more unique even in spelling.
     # There are still cases where oLevelNumber does not work.
     dataframe = dataframe.drop_duplicates(subset=["oLevelNumber"])
@@ -58,12 +58,12 @@ def read_data_file(csv_datafile: str):
     # Insert age, in years, column after calculating it from birth date
     dataframe.insert(3, 'age_calc', dataframe['birthDate'].apply(lambda x: calculate_age(x)))
 
-    # To make easy to detect repeatition
+    # To make it easy to detect repeatition when eye balling the Excel file
     dataframe = dataframe.sort_values(["name"], ascending=True)
     return dataframe
 
 
-def split_courses(dataframe: pd.DataFrame):
+def split_courses(dataframe: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
     """Split the dataframe into the three separate courses.
 
     Return a tuple with three dataframes."""
@@ -75,13 +75,13 @@ def split_courses(dataframe: pd.DataFrame):
     return (ca_co_upgrading, resident_co, his)
 
 
-def get_duplicates(dataframe: pd.DataFrame):
+def get_duplicates(dataframe: pd.DataFrame) -> pd.DataFrame:
     """Check for duplicates and return a dataframe with duplicates."""
 
     return dataframe[dataframe.duplicated(subset=["oLevelNumber"])]
 
 
-def calculate_age(born: str):
+def calculate_age(born: str) -> int:
     """Calculate the age based on the given birth date.
 
     Return age in years.
@@ -92,7 +92,7 @@ def calculate_age(born: str):
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 
-def credit_c(score: str):
+def credit_c(score: str) -> str:
     """Check that the credit is C or above and return True, else return False."""
 
     possible_values = ['A', 'B', 'C']
@@ -103,7 +103,7 @@ def credit_c(score: str):
     return "No"
 
 
-def credit_d(score: str):
+def credit_d(score: str) -> str:
     """Check that the credit is D or above and return 'Yes', else return 'No'."""
 
     possible_values = ['A', 'B', 'C', 'D']
@@ -114,7 +114,7 @@ def credit_d(score: str):
     return "No"
 
 
-def check_qualification(dataframe: pd.DataFrame):
+def check_qualification(dataframe: pd.DataFrame) -> pd.DataFrame:
     """Check that a candidate qualify for a selected course.
     
     Return a dataframe with a column Qualify filled, with 'Yes' or 'No' accordingly."""
